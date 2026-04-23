@@ -2,6 +2,7 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
+import "../auth.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -22,38 +23,43 @@ function Login() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "60px auto" }}>
-      <h2>Login</h2>
+        <div className="auth-page">
+      <div className="auth-card">
+        <h2 className="auth-title">Welcome Back</h2>
+        <p className="auth-subtitle">Login to manage your daily tasks easily</p>
 
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-        />
+<form onSubmit={handleLogin} className="auth-form">
+          <input
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="auth-input"
+          />
 
-        <input
-          type="password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-        />
+          <input
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="auth-input"
+          />
 
-        <button type="submit" style={{ padding: "10px 20px" }}>
-          Login
-        </button>
-      </form>
+          {error && <p className="auth-error">{error}</p>}
+
+          <button type="submit" className="auth-button">
+            Login
+          </button>
+        </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <p style={{ marginTop: "15px" }}>
-        Don&apos;t have an account? <Link to="/register">Register</Link>
-      </p>
+        <p className="auth-footer">
+          Don&apos;t have an account? <Link to="/register">Register</Link>
+        </p>
+      </div>
     </div>
   );
 }
