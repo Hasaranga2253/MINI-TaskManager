@@ -54,8 +54,6 @@ function Login() {
           </button>
         </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
         <p className="auth-footer">
           Don&apos;t have an account? <Link to="/register">Register</Link>
         </p>

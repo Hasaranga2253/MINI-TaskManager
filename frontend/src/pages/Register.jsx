@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
+import "../auth.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -22,38 +23,41 @@ function Register() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "60px auto" }}>
-      <h2>Register</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h2 className="auth-title">Create Account</h2>
+        <p className="auth-subtitle">Start organizing your work and daily tasks</p>
 
-      <form onSubmit={handleRegister}>
-        <input
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-        />
+        <form onSubmit={handleRegister} className="auth-form">
+          <input
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="auth-input"
+          />
 
-        <input
-          type="password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-        />
+          <input
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="auth-input"
+          />
 
-        <button type="submit" style={{ padding: "10px 20px" }}>
-          Register
-        </button>
-      </form>
+          {error && <p className="auth-error">{error}</p>}
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+          <button type="submit" className="auth-button">
+            Register
+          </button>
+        </form>
 
-      <p style={{ marginTop: "15px" }}>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
+        <p className="auth-footer">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+      </div>
     </div>
   );
 }
