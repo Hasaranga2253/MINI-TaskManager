@@ -37,14 +37,20 @@ namespace backend.Controllers
 
         // POST: api/tasks
         [HttpPost]
-        public async Task<ActionResult<TaskItem>> CreateTask(TaskItem task)
+        public async Task<ActionResult<TaskItem>> CreateTask(CreateTaskRequest request)
         {
-            if (string.IsNullOrWhiteSpace(task.Title))
+            if (string.IsNullOrWhiteSpace(request.Title))
             {
                 return BadRequest(new { message = "Title is required." });
             }
 
-            task.UserId = GetCurrentUserId();
+            var task = new TaskItem
+            {
+                Title = request.Title.Trim(),
+                Description = request.Description?.Trim(),
+                IsCompleted = request.IsCompleted,
+                UserId = GetCurrentUserId()
+            };
 
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
@@ -54,7 +60,7 @@ namespace backend.Controllers
 
         // PUT: api/tasks/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTask(int id, TaskItem updatedTask)
+        public async Task<ActionResult> UpdateTask(int id, UpdateTaskRequest request)
         {
             var userId = GetCurrentUserId();
 
@@ -66,14 +72,14 @@ namespace backend.Controllers
                 return NotFound(new { message = "Task not found." });
             }
 
-            if (string.IsNullOrWhiteSpace(updatedTask.Title))
+            if (string.IsNullOrWhiteSpace(request.Title))
             {
                 return BadRequest(new { message = "Title is required." });
             }
 
-            existingTask.Title = updatedTask.Title;
-            existingTask.Description = updatedTask.Description;
-            existingTask.IsCompleted = updatedTask.IsCompleted;
+            existingTask.Title = request.Title.Trim();
+            existingTask.Description = request.Description?.Trim();
+            existingTask.IsCompleted = request.IsCompleted;
 
             await _context.SaveChangesAsync();
 
